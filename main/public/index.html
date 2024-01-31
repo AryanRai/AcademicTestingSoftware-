@@ -1,0 +1,1783 @@
+<html lang="en" class="mdl-js">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3211642563064679"
+     crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <title>CodePen - Layout--split-view</title>
+  <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+    <script src="https://www.googletagmanager.com/gtag/js?l=dataLayer&amp;id=G-MHSCESY6B0" async=""></script>
+  </head>
+    <body>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="dist/js/bootstrap-checkbox.min.js" defer=""></script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+  import {getDatabase, ref, get, set, child, update, remove} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut} from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js'
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAlxf-i_ERZ6VeCXWzckYsp9rMiE93f3IA",
+    authDomain: "globaleducareer-14cb7.firebaseapp.com",
+    databaseURL: "https://globaleducareer-14cb7-default-rtdb.firebaseio.com",
+    projectId: "globaleducareer-14cb7",
+    storageBucket: "globaleducareer-14cb7.appspot.com",
+    messagingSenderId: "385180918906",
+    appId: "1:385180918906:web:afffdb53d4ab28eef787c3",
+    measurementId: "G-MHSCESY6B0"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getDatabase();
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+  var uid;
+  const dbref = ref(db);
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    uid = user.uid;
+    console.log(uid);
+    console.log("user is signed in");
+    if (user !== null) {
+      user.providerData.forEach((profile) => {
+    console.log("Sign-in provider: " + profile.providerId);
+    console.log("  Provider-specific UID: " + profile.uid);
+    console.log("  Name: " + profile.displayName);
+    console.log("  Email: " + profile.email);
+    console.log("  Photo URL: " + profile.photoURL);
+
+    document.getElementById("namelabel").innerHTML = profile.displayName;
+    document.getElementById("uidlabel").innerHTML = uid;
+    document.getElementById("emaillabel").innerHTML = user.email;
+    });
+  }
+    document.getElementById('signinbutton').innerHTML = '<span>Continue ➜</span>';
+    // ...
+  } else {
+    console.log("user is signed out");
+    //signInWithRedirect(auth, provider);
+    // User is signed out
+    // ...
+  }
+});
+
+getRedirectResult(auth)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access Google APIs.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+
+    // The signed-in user info.
+    const user = result.user;
+    console.log(user.name, user.email, user.uid);
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+
+
+        function testingmode(){
+          switchPage("instructions");
+        }
+
+        //testingmode();
+
+        function checkresults(){
+          document.getElementById('resultdiv').innerHTML += "<br><h1>Passage 1</h1><br>";
+          document.getElementById('resultdiv').appendChild(document.getElementById('cloneableq1r').cloneNode(true));
+          document.getElementById('resultdiv').innerHTML += "<br><h1>Passage 2</h1><br>";
+          document.getElementById('resultdiv').appendChild(document.getElementById('cloneableq2r').cloneNode(true));
+          document.getElementById('writingresultdiv').innerHTML += "<br><h1>Writing</h1><br>";
+
+           get(child(dbref, "users" + "/" + uid + "/answered"))
+            .then((snapshot)=>{
+                if(snapshot.exists()){
+                  
+                    document.getElementById('writingresultdiv').appendChild(document.getElementById('wques1ques').cloneNode(true));
+                    document.getElementById('writingresultdiv').innerHTML += "<strong>Answered:</strong><br>";
+                    document.getElementById('writingresultdiv').innerHTML += "<p style='background-color:#D3D3D3;color: black;'><i>" + snapshot.val().writing[1] + "</i></p>";
+                    document.getElementById('writingresultdiv').appendChild(document.getElementById('wques2ques').cloneNode(true));
+                    document.getElementById('writingresultdiv').innerHTML += "<strong>Answered:</strong><br>";
+                    document.getElementById('writingresultdiv').innerHTML += "<p style='background-color:#D3D3D3;color: black;'><i>" + snapshot.val().writing[2] + "</i></p>";
+
+                } else {
+                    alert("No data found");
+                }
+            })
+            .catch((error)=>{
+                alert(error)
+            })
+            var readingscore = 0;
+            get(child(dbref, "tests"))
+            .then((snapshot)=>{
+                if(snapshot.exists()){
+                  console.log(Object.keys(ansdict["reading"]).length);
+                  for (var i = 1; i < (Object.keys(ansdict["reading"]).length + 1); i++) {
+                      console.log(snapshot.val()[1].answers[i]);
+                      if (ansdict["reading"][i] == snapshot.val()[1].answers[i]) {
+                        console.log("correctans");
+                        readingscore += 1;
+                        var colorcode = "#9bdb8d";
+                      }
+
+                      if (ansdict["reading"][i] != snapshot.val()[1].answers[i]) {
+                        console.log("wrong ans");
+                      
+                        var colorcode = "#db8d8f";
+                      }
+
+                      if (ansdict["reading"][i] == 0) {
+                        console.log("not answered");
+                        ansdict["reading"][i] = "Unanswered";
+                        var colorcode = "#dbd38d";
+                      }
+
+
+                      document.getElementById("correctansdiv").innerHTML += "<div class='quiz-question'><strong>" + i + ". Answer: </strong><br><p style='background-color:#D3D3D3;'>" + snapshot.val()[1].answers[i] + "</p><br>" + "<strong>Answered: </strong><p style='background-color:" + colorcode + ";'>" + ansdict["reading"][i] + "</p><br></div>";
+                    }  
+
+                      //console.log(snapshot.val()[1].answers[l]);
+                      //document.getElementById("correctansdiv").innerHTML += "<p>" + l + ". answer: </P>" + snapshot.val()[1].answers[l] + "<br>" + "answered: " + ansdict["reading"][l] + "<br>";
+                    document.getElementById("readingscore").innerHTML = "Total score: <strong>" + readingscore + "/" + Object.keys(ansdict['reading']).length + "</strong>";
+
+                    update(ref(db, "users" + "/" + uid),{
+                      resultpage : document.getElementById('resultwrapper').outerHTML.toString()
+                    });
+
+                    
+                } else {
+                    alert("No data found");
+                }
+            })
+            .catch((error)=>{
+                alert(error)
+            })
+        }
+
+
+
+        function submittest() {
+            set(ref(db, "users" + "/" + uid),{
+                answered : ansdict
+            })
+            .then(()=>{
+                alert("Submitted");
+                //document.getElementById("footer").classList.add('hidden');
+                //document.getElementById("header").classList.add('hidden');
+                checkresults();
+                console.log(document.getElementById('resultwrapper').cloneNode(true));
+                document.getElementById("footer").style.backgroundColor = "wheat";
+                document.getElementById("footer").innerHTML = "<div class='wrapper'><p>Copy this link to share your result: <input id='resultlink' style='width:100%' value='" + window.location.href + "result.html?suid=" + uid + "'></input></p></div><div class='wrapper'><button class='button' id='copybtn'>Copy 📋</button></div><div class='wrapper'><button id='copyclosebtn' class='button alternative'>Close ❌</button>";
+
+                document.getElementById("copybtn").addEventListener("click", function() {
+                  const element = document.querySelector('#resultlink');
+                  element.select();
+                  element.setSelectionRange(0, 99999);
+                  document.execCommand('copy');
+                });
+
+                document.getElementById("copyclosebtn").addEventListener("click", function() {
+                  document.getElementById('footer').style.display = 'none';
+                });
+                
+
+            })
+            .catch((error)=>{
+                alert(error);
+            });
+        }
+
+
+
+        function starttest() {
+          get(child(dbref, "users" + "/" + uid + "/answered"))
+            .then((snapshot)=>{
+                if(snapshot.exists()){
+                  
+                  console.log("test already completed");
+                  window.location.replace(window.location.href + "result.html?suid=" + uid);
+
+                } 
+                else {
+                    console.log("new user");
+                }
+            })
+            .catch((error)=>{
+                alert(error)
+            })
+
+
+            switchPage(1);
+            console.log("start test");
+            document.getElementById("footer").classList.remove('hidden');
+            document.getElementById("header").classList.remove('hidden');
+
+            var head = document.getElementsByTagName('HEAD')[0];
+ 
+        // Create new link Element
+            var link = document.createElement('link');
+     
+            // set the attributes for link element
+            link.rel = 'stylesheet';
+         
+            link.type = 'text/css';
+         
+            link.href = 'style.css';
+     
+            // Append link element to HTML head
+            head.appendChild(link);
+            console.log('FULL SCREEN');
+            fullscreenval = true;
+            document.getElementById("txt1").classList.remove("blurredElement");
+            document.getElementById("questions1").classList.remove("blurredElement");
+            document.getElementById("txt2").classList.remove("blurredElement");
+            document.getElementById("questions2").classList.remove("blurredElement");        
+            document.getElementById("footer").style.display = "none";
+            document.getElementById("fullscreenbtn").checked = true;
+            document.getElementById("fullscreenbtnfooter").checked = true;
+            document.getElementById("maintxt1").style.userSelect = "text";
+            document.getElementById("maintxt2").style.userSelect = "text";
+
+            document.getElementById('navinstructions').classList.remove('is-active');
+            document.getElementById('navr1').classList.add('is-active');
+            document.getElementById('loginbuttons').classList.add('hidden');
+            startTimer();
+
+            //starttimer
+          }  
+
+        var signinbtn = document.getElementById('signinbutton');
+        var signoutbtn = document.getElementById('signoutbutton');
+        var prevbtn = document.getElementById('previnstructionsbutton');
+        var starttestbtn = document.getElementById('starttestbutton');
+
+        signinbtn.addEventListener("click", function() {
+          if (uid == null)
+          {
+          signInWithRedirect(auth, provider);
+          }
+
+          else{
+            console.log("continuing to instructions page");
+            switchPage("instructions");
+          }
+        });
+
+        signoutbtn.addEventListener("click", function() {
+  
+          signOut(auth).then(() => {
+            // Sign-out successful.
+            window.location.reload();
+          }).catch((error) => {
+            // An error happened.
+          });
+          
+        });
+
+        prevbtn.addEventListener("click", function() {
+  
+          switchPage('login');
+          
+        });
+
+        starttestbtn.addEventListener("click", function() {
+  
+          starttest();
+          
+          
+          
+});
+
+var m = 1;
+var s = 1;
+var readingcomplete = false;
+var writingcomplete = false;
+var listeningcomplete = false;
+var testcomplete = false;
+var ansdict = {};
+  
+mode.addEventListener("click", (e) =>
+  document.body.classList.toggle("dark-mode")
+);
+
+  function submitreading() {
+        var ques = [document.getElementsByName('rques1'), document.getElementsByName('rques2'), document.getElementsByName('rques3'), document.getElementsByName('rques4'), document.getElementsByName('rques5'), document.getElementsByName('rques6'), document.getElementsByName('rques7'), document.getElementsByName('rques8'), document.getElementsByName('rques9'), document.getElementsByName('rques10')];
+        var ans = {};
+        var i;
+        var j;
+        for(j = 0; j < ques.length; j++) {
+          
+          for(i = 0; i < ques[j].length; i++) {
+            if(ques[j][i].checked)
+            
+            ans[j + 1] = ques[j][i].value;
+          }
+
+          if (ans[j + 1] == null) {
+            ans[j+1] = "0";
+          }
+        }
+
+        console.log(ans);
+        readingcomplete = true;
+        document.getElementById('navw1').classList.remove('hidden');
+        //document.getElementById('navl1').classList.remove('hidden');
+        document.getElementById('navr1').classList.add('hidden');
+        document.getElementById('navr2').classList.add('hidden');
+        switchPage(3);
+        document.querySelector('.tab.is-active').classList.remove('is-active'); 
+        switchers[3].parentNode.classList.add('is-active');
+        m = 0;
+        s = 10;
+        document.getElementById('autosubmittimerreading').innerHTML = m + ":" + s;
+        ansdict["reading"] = ans;
+
+
+    }
+
+    function submitwriting(){
+      document.getElementById('navresults').classList.remove('hidden');
+      document.getElementById('navinstructions').classList.add('hidden');
+      document.getElementById('navw1').classList.add('hidden');
+      switchPage(4);
+      var ans = {}
+      ans[1] = document.getElementById('wques1').value.replace(/(?:\r\n|\r|\n)/g, '<br>');
+      ans[2] = document.getElementById('wques2').value.replace(/(?:\r\n|\r|\n)/g, '<br>');
+      console.log(ans);
+      ansdict["writing"] = ans;
+      writingcomplete = true;
+      testcomplete = true;
+      submittest();
+    }
+
+
+document.getElementById('timer').innerHTML = "00" + ":" + 10;
+
+
+
+function startTimer() {
+  var presentTime = document.getElementById('timer').innerHTML;
+  var timeArray = presentTime.split(/[:]+/);
+  m = timeArray[0];
+  s = checkSecond((timeArray[1] - 1));
+  if (s == 0 && m == 0) {
+    console.log("timerout");
+    
+    if (readingcomplete == true && writingcomplete == false) {
+      console.log("submitwriting");
+      submitwriting();
+      console.log(ansdict);
+
+    }
+
+    if (readingcomplete == false && writingcomplete == false) {
+      console.log("submitreading");
+      submitreading();
+      console.log(ansdict);
+
+    }
+
+
+  }
+  if(s==59){m=m-1}
+  if(m<0){
+    return
+  }
+  
+  document.getElementById('timer').innerHTML =
+    m + ":" + s;
+
+  document.getElementById('autosubmittimerreading').innerHTML =
+    m + ":" + s;
+  document.getElementById('autosubmittimerwriting').innerHTML =
+    m + ":" + s;
+  console.log(m)
+  setTimeout(startTimer, 1000);
+  
+}
+
+function checkSecond(sec) {
+  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+  if (sec < 0) {sec = "59"};
+  return sec;
+}
+
+
+
+</script>
+<script type="text/javascript">
+
+var fullscreenval = false;
+  // Function that gets called in order to highlight
+function highlightSelection() {
+  var userSelection = window.getSelection();
+
+  //Attempting to highlight multiple selections (for multiple nodes only + Currently removes the formatting)
+  for (var i = 0; i < userSelection.rangeCount; i++) {
+    //Copy the selection onto a new element and highlight it
+    var node = highlightRange(userSelection.getRangeAt(i) /*.toString()*/);
+    // Make the range into a variable so we can replace it
+    var range = userSelection.getRangeAt(i);
+    //Delete the current selection
+    range.deleteContents();
+    //Insert the copy
+    range.insertNode(node);
+  }
+
+  //highlights 1 selection (for individual nodes only + Need to uncomment on the bootom)
+  //highlightRange(userSelection.getRangeAt(0));
+
+  //Save the text to a string to be used if yoiu want to
+  /*var string1 = (userSelection.getRangeAt(0));
+        alert(string1);*/
+}
+
+//Function that highlights a selection and makes it clickable
+function highlightRange(range) {
+  //Create the new Node
+  var newNode = document.createElement("span");
+
+  // Make it highlight
+  newNode.setAttribute("style", "background-color: var(--bg-color-highlight)");
+
+  //Make it "Clickable"
+  newNode.onclick = function () {
+
+    var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        
+        // Get cursor position
+    const posX = event.clientX - 110;
+    const posY = event.clientY + 20 + scrollTop;
+      
+      
+        
+        // Append HTML to the body, create the "Tweet Selection" dialog
+    document.body.insertAdjacentHTML('beforeend', '<div id="share-snippet" style="position: absolute; top: '+posY+'px; left: '+posX+'px;"><div class="speech-bubble-del"><div class="share-inside"><i class="fa fa-trash fa-2x" ><a id="delbutton" href="javascript:void(0);">Remove</a></i></div></div></div>');
+    
+    document.getElementById("delbutton").onclick = function () {
+      deletenode(newNode);
+      document.getElementById("share-snippet").remove();
+    }
+    //if (confirm("do you want to delete it?")) {
+      //deletenode(newNode);
+    //} else {
+      //alert(range);
+    //}
+  };
+
+  //Add Text for replacement (for multiple nodes only)
+  //newNode.innerHTML += range;
+  newNode.appendChild(range.cloneContents());
+
+  //Apply Node around selection (used for individual nodes only)
+  //range.surroundContents(newNode);
+  document.getElementById("share-snippet").remove();
+  return newNode;
+
+}
+
+function deletenode(node) {
+  var contents = document.createTextNode(node.innerText);
+  node.parentNode.replaceChild(contents, node);
+}
+
+
+
+var article = document.getElementById("maintxt1");
+
+// We could also add the  'touchend' event for touch devices, but since 
+// most iOS/Android browsers already show a dialog when you select 
+// text (often with a Share option) we'll skip that
+// article.addEventListener('mouseup', handlerFunction, false);
+
+// Mouse up event handler function
+function handlerFunction(event) {
+    
+    // If there is already a share dialog, remove it
+    if (document.contains(document.getElementById("share-snippet"))) {
+        document.getElementById("share-snippet").remove();
+    }
+    
+    // Check if any text was selected
+    if(window.getSelection().toString().length > 0) {
+
+        // Get selected text and encode it
+        const selection = encodeURIComponent(window.getSelection().toString()).replace(/[!'()*]/g, escape);
+        
+        // Find out how much (if any) user has scrolled
+        var scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+        
+        // Get cursor position
+        const posX = event.clientX - 110;
+        const posY = event.clientY + 20 + scrollTop;
+      
+      
+        
+        // Append HTML to the body, create the "Tweet Selection" dialog
+        document.body.insertAdjacentHTML('beforeend', '<div id="share-snippet" style="position: absolute; top: '+posY+'px; left: '+posX+'px;"><div class="speech-bubble"><div class="share-inside"><i class="fa fa-highlighter fa-2x" ><a href="javascript:void(0);" onclick="highlightSelection(), window.getSelection()?.removeAllRanges();">Highlight</a></i></div></div></div>');
+    }
+}
+
+window.addEventListener('resize', (evt) => { 
+    if (window.innerHeight == screen.height) {
+        console.log('FULL SCREEN');
+        fullscreenval = true;
+        document.getElementById("txt1").classList.remove("blurredElement");
+        document.getElementById("questions1").classList.remove("blurredElement");
+        document.getElementById("txt2").classList.remove("blurredElement");
+        document.getElementById("questions2").classList.remove("blurredElement");        
+        document.getElementById("footer").style.display = "none";
+        document.getElementById("fullscreenbtn").checked = true;
+        document.getElementById("fullscreenbtnfooter").checked = true;
+        document.getElementById("maintxt1").style.userSelect = "text";
+        document.getElementById("maintxt2").style.userSelect = "text";
+        document.getElementById('writingpgcontainer').classList.remove("blurredElement");
+        
+
+    } else {
+        console.log('NORMAL SCREEN');
+        fullscreenval = false;
+        document.getElementById("txt1").classList.add("blurredElement");
+        document.getElementById("questions1").classList.add("blurredElement");
+        document.getElementById("txt2").classList.add("blurredElement");
+        document.getElementById("questions2").classList.add("blurredElement");        
+        document.getElementById("footer").style.display = "inline";
+        document.getElementById("fullscreenbtn").checked = false;
+        document.getElementById("fullscreenbtnfooter").checked = false;
+        document.getElementById("maintxt1").style.userSelect = "none";
+        document.getElementById("maintxt2").style.userSelect = "none";
+        document.getElementById('writingpgcontainer').classList.add("blurredElement");
+    }
+});
+
+function requestFullScreen(element) {
+    // Supports most browsers and their versions.
+
+    if (fullscreenval == false){
+
+    document.body.dispatchEvent(new KeyboardEvent('keydown',{'key':'escape'}));
+    var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+    if (requestMethod) { // Native full screen.
+        requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+
+    }
+
+    if (fullscreenval == true) {
+    
+    var requestMethod = document.exitFullscreen;
+    if (requestMethod) { // Native full screen.
+        requestMethod.call(document);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
+
+    }
+    
+}
+
+
+var keydown = null;
+
+$(window).keydown(function(e) {
+    if ( ( e.keyCode == 70 && ( e.ctrlKey || e.metaKey ) ) ||
+         ( e.keyCode == 191 ) ) {
+        keydown = new Date().getTime();
+    }
+
+    return true;
+}).blur(function() {
+    if ( keydown !== null ) {
+        var delta = new Date().getTime() - keydown;
+        if ( delta >= 0 && delta < 1000 )
+            console.log('finding');
+            var requestMethod = document.exitFullscreen;
+        if (requestMethod) { // Native full screen.
+            requestMethod.call(document);
+        } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+            var wscript = new ActiveXObject("WScript.Shell");
+            if (wscript !== null) {
+                wscript.SendKeys("{F11}");
+            }
+        }
+        
+        document.getElementById("txt1").classList.add("blurredElement");
+        document.getElementById("maintxt1").style.userSelect = "none";
+        document.getElementById("questions1").classList.add("blurredElement");
+        document.getElementById("txt2").classList.add("blurredElement");
+        document.getElementById("maintxt2").style.userSelect = "none";
+        document.getElementById("questions2").classList.add("blurredElement");
+        document.getElementById("footer").style.display = "inline";
+        document.getElementById("fullscreenbtn").checked = false;
+        document.getElementById("fullscreenbtnfooter").checked = false;  
+
+
+
+        keydown = null;
+    }
+});
+
+
+window.addEventListener("keydown",function (e) {
+  if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
+    e.preventDefault();
+  }
+})
+
+
+
+
+
+function switchPage(page_id) {
+
+  //if (!((page_id == 3 || page_id == 4) && readingcomplete == false) {}
+    
+    if (document.contains(document.getElementById("share-snippet"))) {
+        document.getElementById("share-snippet").remove();
+    }
+    
+    const current_page = document.querySelector('.pages .page.is-active');
+    current_page.classList.remove('is-active');
+    console.log(`current page: ${current_page}`);
+
+    const next_page = document.querySelector(`.pages .page[data-page="${page_id}"]`);
+    next_page.classList.add('is-active');
+    console.log(`next page: ${next_page}`);
+    if (page_id == 1) {
+      article = document.getElementById("maintxt1");  
+      article.addEventListener('mouseup', handlerFunction, false);
+      console.log("change id");  
+    }
+
+    if (page_id == 2) {
+      article = document.getElementById("maintxt2");
+      article.addEventListener('mouseup', handlerFunction, false);
+      console.log("change id"); 
+    }
+} 
+
+
+
+</script>
+    <header class="hidden" id="header">
+    <div id="timerdiv" class="wrapper timer"><p id="timerdiv">Time left⌛</p><span id="timer"></span></div>
+  <div class="wrapper">
+    <input type="checkbox" id="mode">
+    <label for="mode">Dark Mode</label>
+  </div>
+  <div class="wrapper" style='visibility: hidden;'>
+    <label>Style:</label>
+    <select id="highlight-style">
+      <option>background</option>
+      <option>half</option>
+      <option>underline</option>
+    </select>
+  </div>
+    <div class="wrapper">
+    <input id="fullscreenbtn" type="checkbox" onclick="requestFullScreen(document.documentElement)">
+    <label>FullScreen</label>
+  </div>
+    <nav>
+    <ul class="tabs">
+       <li class="tab is-active" id="navinstructions"><a data-switcher="" data-tab="instructions">Instructions</a></li>
+       <li class="tab" id="navr1"><a data-switcher="" data-tab="1">Reading 1</a></li>
+       <li class="tab" id="navr2"><a data-switcher="" data-tab="2">Reading 2</a></li>
+       <li class="tab hidden" id="navw1"><a data-switcher="" data-tab="3">Writing</a></li>
+       <li class="tab hidden" id="navresults"><a data-switcher="" data-tab="4">Results</a></li>
+    </ul>
+  </nav>
+</header>
+
+  <footer class="hidden" id="footer" style="display: inline;">
+    <div class="footer__wrapper">
+      <div> <div class="wrapper">Enable Full Screen to View Content</div>     
+      <div class="wrapper">
+    <input id="fullscreenbtnfooter" type="checkbox" onclick="requestFullScreen(document.documentElement)">
+    <label> FullScreen</label>
+  </div>
+  </div>
+  </div>
+
+  </footer>
+
+
+
+
+  <div class="pages">
+  <div class="page" data-page="1">
+
+<!-- partial:index.partial.html -->
+
+<div class="content-wrapper" id="wrapper">
+<div class="col-l" id="col-l">
+
+
+<main class="blurredElement" id="txt1">
+  <h1>Sample Academic Reading 1</h1>
+  <p class="item" id="maintxt1" style="user-select: none;">The general assumption is that older workers are paid more in spite of, rather than because of, their productivity. That might partly explain why, when employers are under pressure to cut costs, they persuade a 55-year old to take early retirement. Take away seniority-based pay scales, and older workers may become a much more attractive employment proposition. But most employers and many workers are uncomfortable with the idea of reducing someone’s pay in later life – although manual workers on piece-rates often earn less as they get older. So retaining the services of older workers may mean employing them in different ways.
+
+One innovation was devised by IBM Belgium. Faced with the need to cut staff costs, and having decided to concentrate cuts on 55 to 60-year olds, IBM set up a separate company called Skill Team, which re-employed any of the early retired who wanted to go on working up to the age of 60. An employee who joined Skill Team at the age of 55 on a five-year contract would work for 58% of his time, over the full period, for 88% of his last IBM salary. The company offered services to IBM, thus allowing it to retain access to some of the intellectual capital it would otherwise have lost.
+
+The best way to tempt the old to go on working may be to build on such ‘bridge’ jobs: part-time or temporary employment that creates a more gradual transition from full-time work to retirement. Studies have found that, in the United States, nearly half of all men and women who had been in full-time jobs in middle age moved into such ‘bridge’ jobs at the end of their working lives. In general, it is the best-paid and worst-paid who carry on working. There seem to be two very different types of bridge job-holder – those who continue working because they have to and those who continue working because they want to, even though they could afford to retire.
+
+If the job market grows more flexible, the old may find more jobs that suit them. Often, they will be self-employed. Sometimes, they may start their own businesses: a study by David Storey of Warwick University found that in Britain 70% of businesses started by people over 55 survived, compared with an overall national average of only 19%. But whatever pattern of employment they choose, in the coming years the skills of these ‘grey workers’ will have to be increasingly acknowledged and rewarded.</p>
+
+
+      
+ </main>
+
+<!-- partial -->
+
+
+
+
+  </div>
+
+  <div class="col-r" id="col-r">
+    <div class="card">
+        Questions
+    </div>
+
+
+
+
+<div class="container blurredElement" id="questions1">
+  
+<!--Questions with radios-->
+<div class="row">
+  <form>
+  <h1>Questions with multiple options</h1>
+  <p>Aswer all questions and check your result!</p>
+  <div class="quiz-group">
+    <div id="cloneableq1r">
+        <div class="quiz-question-strong">1. In paragraph one, the writer suggests that companies could consider</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques1" value="1">
+        abolishing pay schemes that are based on age.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques1" value="2">
+        avoiding pay that is based on piece-rates.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques1" value="3">
+        increasing pay for older workers.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques1" value="4">
+        equipping older workers with new skills.
+      </label>
+    </div>
+  
+  <div class="quiz-group">
+    <div class="quiz-question-strong">2. Skill Team is an example of a company which</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques2" value="1">
+        offers older workers increases in salary.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques2" value="2">
+        allows people to continue working for as long as they want.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques2" value="3">
+        allows the expertise of older workers to be put to use.
+      </label>
+    </div>
+      <div class="radio">
+      <label>
+        <input type="radio" name="rques2" value="4">
+        treats older and younger workers equally.
+      </label>
+    </div>
+
+  </div> 
+
+  <div class="quiz-group">
+    <div class="quiz-question-strong">3. According to the writer, ‘bridge’ jobs</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques3" value="1">
+        tend to attract people in middle-salary ranges.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques3" value="2">
+        are better paid than some full-time jobs.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques3" value="3">
+        originated in the United States.
+      </label>
+    </div>
+      <div class="radio">
+      <label>
+        <input type="radio" name="rques3" value="4">
+        appeal to distinct groups of older workers.
+      </label>
+    </div>
+
+  </div> 
+
+
+  <div class="quiz-group">
+    <div class="quiz-question-strong">4. David Storey’s study found that</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques4" value="1">
+        people demand more from their work as they get older.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques4" value="2">
+        older people are good at running their own businesses.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques4" value="3">
+        an increasing number of old people are self-employed.
+      </label>
+    </div>
+      <div class="radio">
+      <label>
+        <input type="radio" name="rques4" value="4">
+        few young people have their own businesses.
+      </label>
+    </div>
+  </div>
+  </div> 
+    <div class="quiz-answer">
+      <a class="btn btn-success btn-md" onclick="switchPage(2);     document.querySelector('.tab.is-active').classList.remove('is-active'); switchers[2].parentNode.classList.add('is-active');">Next</a>
+    </div>
+  
+
+
+</div></form>
+<!--END Questions with radios-->
+
+
+
+        
+</div>
+<!-- partial -->
+
+
+  </div>
+
+
+</div>
+
+
+</div>
+</div>
+
+  <div class="page" data-page="2">
+<!-- partial:index.partial.html -->
+
+<div class="content-wrapper" id="wrapper">
+<div class="col-l" id="col-l">
+
+
+<main class="blurredElement" id="txt2">
+  <h1>Sample Academic Reading 2</h1>
+  <p class="item" id="maintxt2" style="user-select: none;">The Thames Tunnel was a tunnel built under the River Thames in London. It was the first subaqueous tunnel ever built and many people exaggeratedly claimed it was the Eighth Wonder of the World at the time it was opened. It was opened in 1843 to pedestrians only and people came from far and wide to see the marvel. The day it was first opened, it attracted five thousand people to enter the tunnel and walk its length of almost 400 metres. The Thames Tunnel was used by people from all classes. The working class used it for its functional use of crossing from one side of the river to another, while for the middle classes and upper classes, it was a tourist experience. In the age of sail and horse-drawn coaches, people travelled a long way to visit the tunnel, but this was not enough to make the tunnel a financial success. It had cost over £500,000 to complete which in those days was a considerable amount of money. However, even though it attracted about 2 million people each year, each person only paid a penny to use it. The aim had been for the tunnel to be used by wheeled vehicles to transport cargo so that it could bring in a profit. But this failed and the tunnel eventually became nothing more than a tourist attraction selling souvenirs. In 1865, the tunnel became part of the London Underground railway system which continues to be its use today.</p>
+
+
+      
+ </main>
+
+<!-- partial -->
+
+
+
+
+  </div>
+
+  <div class="col-r" id="col-r">
+    <div class="card">
+        Questions
+    </div>
+
+
+
+
+<div class="container blurredElement" id="questions2">
+  
+<!--Questions with radios-->
+<div class="row">
+  <form>
+  <h1>True/False/
+  Not Given</h1>
+  <p>Aswer all questions and check your result!</p>
+  <div class="quiz-group">
+    <div id="cloneableq2r">
+        <div class="quiz-question-strong">5. The Thames Tunnel was the first tunnel ever built under a river.</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques5" value="True">
+        True
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques5" value="False">
+        False
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques5" value="Not Given">
+        Not Given
+      </label>
+    </div>
+
+  
+  <div class="quiz-group">
+    <div class="quiz-question-strong">6. The Thames Tunnel was the Eighth Wonder of the World.</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques6" value="True">
+        True
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques6" value="False">
+        False
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques6" value="Not Given">
+        Not Given
+      </label>
+    </div>
+
+
+  </div> 
+
+  <div class="quiz-group">
+    <div class="quiz-question-strong">7. People were drawn from all over to see the Thames Tunnel.</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques7" value="True">
+        True
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques7" value="False">
+        False
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques7" value="Not Given">
+        Not Given
+      </label>
+    </div>
+
+
+  </div> 
+
+  <div class="quiz-group">
+    <div class="quiz-question-strong">8. The tunnel was used more by the middle and upper classes.</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques8" value="True">
+        True
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques8" value="False">
+        False
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques8" value="Not Given">
+        Not Given
+      </label>
+    </div>
+
+
+  </div> 
+
+  <div class="quiz-group">
+    <div class="quiz-question-strong">9. People were able to travel by sea or land in those days.</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques9" value="True">
+        True
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques9" value="False">
+        False
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques9" value="Not Given">
+        Not Given
+      </label>
+    </div>
+
+
+  </div> 
+
+
+  <div class="quiz-group">
+    <div class="quiz-question-strong">10. The aim of the tunnel was to turn a profit as a tourist attraction.</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques10" value="True">
+        True
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques10" value="False">
+        False
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="rques10" value="Not Given">
+        Not Given
+      </label>
+    </div>
+  </div>
+</div>
+
+    <div class="quiz-answer">
+      <a class="btn btn-success btn-md">Autosubmit in: <span id="autosubmittimerreading"></span></a>
+    </div>
+   
+
+
+</div></form>
+<!--END Questions with radios-->
+
+
+
+        
+</div>
+<!-- partial -->
+
+
+  </div>
+
+
+
+
+
+  
+
+
+</div>
+
+
+</div>
+
+  
+</div>
+
+<div class="page" data-page="3">
+<div class="container">
+
+
+<!--Open Questions-->  
+<div class="row" id="writingpgcontainer">
+  <h1 class="quiz-title">Open opinion questions</h1>
+  <p class="quiz-description">Answer the following questions:</p>
+  <div class="quiz-group">
+    <div class="quiz-question" id="wques1ques"><strong>1. Question:</strong> Some people think that parents should teach their children how to be good members of society. Others, however, believe that school is the best place to learn this. Discuss both views and give your own opinion.
+    </div>
+    <label for="comment">Answer:</label>
+    <textarea class="writingarea" id="wques1"></textarea>
+  </div>
+  
+  <div class="quiz-group">
+     <div class="quiz-question" id="wques2ques"><strong>2. Question:</strong> There is an increasing trend around the world of married couples deciding not to have children. Discuss the advantages and disadvantages for couples who decide to do this.
+     </div>
+    <label for="comment">Answer:</label>
+    <textarea class="writingarea" id="wques2"></textarea>
+    <div class="quiz-answer">
+      <a class="btn btn-success btn-md" role="button">Autosubmit in: <span id="autosubmittimerwriting"></span></a>
+    </div>
+  </div>
+
+</div> <!--END Open Questions-->
+
+
+        
+</div>             
+
+</div>
+
+      <div class="page" data-page="4">
+<div class="content-wrapper" id="resultwrapper">
+<div class="col-l" id="col-l">
+
+
+<div class="container">
+    <div class="card">
+        Answered
+    </div>
+
+<div class="row unclickable" id="resultdiv">
+<br>
+<br>
+<br>
+</div>
+<div class="row" id="writingresultdiv">
+  
+</div>
+
+
+        
+</div>
+
+  </div>
+
+  <div class="col-r" id="col-r">
+    <div class="card" id="readingscore">
+        Correct Answers
+    </div>
+
+
+
+
+<div class="container" id="correctansdiv">
+  
+
+
+
+  </div>
+
+
+</div>
+
+
+</div>
+      </div>
+      
+<div class="page is-active" data-page="login">
+<div class="bg">
+  <!-- Canvas -->
+  <canvas class="orb-canvas"></canvas>
+  <!-- Overlay -->
+  <div class="overlay">
+    <!-- Overlay inner wrapper -->
+    <div class="overlay__inner">
+      <!-- Title -->
+      <h1 class="overlay__title">
+        Please login and verify details to start the
+        <span class="text-gradient">test.</span>
+      </h1>
+      <!-- Description -->
+      <p class="overlay__description">
+        Name: <strong id="namelabel"></strong>
+        <br>
+        Uid: <strong id="uidlabel"></strong>
+        <br>
+        Email: <strong id="emaillabel"></strong>
+      </p>
+      <!-- Buttons -->
+      <div class="overlay__btns">
+
+      <button id="signinbutton" class="overlay__btn overlay__btn--transparent">
+<div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="filled_black" data-text="continue_with" data-size="large" data-logo_alignment="left"><div class="S9gUrf-YoZ4jf" style="position: relative;"><div><div tabindex="0" role="button" aria-labelledby="button-label" class="nsm7Bb-HzV7m-LgbsSe  hJDwNd-SxQuSe MFS4be-JaPV2b-Ia7Qfc MFS4be-Ia7Qfc uaxL4e-RbRzK"><div class="nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb "><div class="nsm7Bb-HzV7m-LgbsSe-Bz112c-haAclf"><div class="nsm7Bb-HzV7m-LgbsSe-Bz112c"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="LgbsSe-Bz112c"><g><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></g></svg></div></div><span class="nsm7Bb-HzV7m-LgbsSe-BPrWId">Continue with Google</span><span class="L6cTce" id="button-label">Continue with Google</span></div></div></div></div></div>
+        
+        </button>
+
+        <button class="overlay__btn overlay__btn--colors" id="signoutbutton">
+          <span>SignOut</span>
+          <span class="overlay__btn-emoji">❌</span>
+        </button> 
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import * as PIXI from "https://cdn.skypack.dev/pixi.js@5.x";
+import { KawaseBlurFilter } from "https://cdn.skypack.dev/@pixi/filter-kawase-blur@3.2.0";
+import SimplexNoise from "https://cdn.skypack.dev/simplex-noise@3.0.0";
+import hsl from "https://cdn.skypack.dev/hsl-to-hex";
+import debounce from "https://cdn.skypack.dev/debounce";
+
+// return a random number within a range
+function random(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+// map a number from 1 range to another
+function map(n, start1, end1, start2, end2) {
+  return ((n - start1) / (end1 - start1)) * (end2 - start2) + start2;
+}
+
+// Create a new simplex noise instance
+const simplex = new SimplexNoise();
+
+// ColorPalette class
+class ColorPalette {
+  constructor() {
+    this.setColors();
+    this.setCustomProperties();
+  }
+
+  setColors() {
+    // pick a random hue somewhere between 220 and 360
+    this.hue = ~~random(220, 360);
+    this.complimentaryHue1 = this.hue + 30;
+    this.complimentaryHue2 = this.hue + 60;
+    // define a fixed saturation and lightness
+    this.saturation = 95;
+    this.lightness = 50;
+
+    // define a base color
+    this.baseColor = hsl(this.hue, this.saturation, this.lightness);
+    // define a complimentary color, 30 degress away from the base
+    this.complimentaryColor1 = hsl(
+      this.complimentaryHue1,
+      this.saturation,
+      this.lightness
+    );
+    // define a second complimentary color, 60 degrees away from the base
+    this.complimentaryColor2 = hsl(
+      this.complimentaryHue2,
+      this.saturation,
+      this.lightness
+    );
+
+    // store the color choices in an array so that a random one can be picked later
+    this.colorChoices = [
+      this.baseColor,
+      this.complimentaryColor1,
+      this.complimentaryColor2
+    ];
+  }
+
+  randomColor() {
+    // pick a random color
+    return this.colorChoices[~~random(0, this.colorChoices.length)].replace(
+      "#",
+      "0x"
+    );
+  }
+
+  setCustomProperties() {
+    // set CSS custom properties so that the colors defined here can be used throughout the UI
+    document.documentElement.style.setProperty("--hue", this.hue);
+    document.documentElement.style.setProperty(
+      "--hue-complimentary1",
+      this.complimentaryHue1
+    );
+    document.documentElement.style.setProperty(
+      "--hue-complimentary2",
+      this.complimentaryHue2
+    );
+  }
+}
+
+// Orb class
+class Orb {
+  // Pixi takes hex colors as hexidecimal literals (0x rather than a string with '#')
+  constructor(fill = 0x000000) {
+    // bounds = the area an orb is "allowed" to move within
+    this.bounds = this.setBounds();
+    // initialise the orb's { x, y } values to a random point within it's bounds
+    this.x = random(this.bounds["x"].min, this.bounds["x"].max);
+    this.y = random(this.bounds["y"].min, this.bounds["y"].max);
+
+    // how large the orb is vs it's original radius (this will modulate over time)
+    this.scale = 1;
+
+    // what color is the orb?
+    this.fill = fill;
+
+    // the original radius of the orb, set relative to window height
+    this.radius = random(window.innerHeight / 6, window.innerHeight / 3);
+
+    // starting points in "time" for the noise/self similar random values
+    this.xOff = random(0, 1000);
+    this.yOff = random(0, 1000);
+    // how quickly the noise/self similar random values step through time
+    this.inc = 0.002;
+
+    // PIXI.Graphics is used to draw 2d primitives (in this case a circle) to the canvas
+    this.graphics = new PIXI.Graphics();
+    this.graphics.alpha = 0.825;
+
+    // 250ms after the last window resize event, recalculate orb positions.
+    window.addEventListener(
+      "resize",
+      debounce(() => {
+        this.bounds = this.setBounds();
+      }, 250)
+    );
+  }
+
+  setBounds() {
+    // how far from the { x, y } origin can each orb move
+    const maxDist =
+      window.innerWidth < 1000 ? window.innerWidth / 3 : window.innerWidth / 5;
+    // the { x, y } origin for each orb (the bottom right of the screen)
+    const originX = window.innerWidth / 1.25;
+    const originY =
+      window.innerWidth < 1000
+        ? window.innerHeight
+        : window.innerHeight / 1.375;
+
+    // allow each orb to move x distance away from it's x / y origin
+    return {
+      x: {
+        min: originX - maxDist,
+        max: originX + maxDist
+      },
+      y: {
+        min: originY - maxDist,
+        max: originY + maxDist
+      }
+    };
+  }
+
+  update() {
+    // self similar "psuedo-random" or noise values at a given point in "time"
+    const xNoise = simplex.noise2D(this.xOff, this.xOff);
+    const yNoise = simplex.noise2D(this.yOff, this.yOff);
+    const scaleNoise = simplex.noise2D(this.xOff, this.yOff);
+
+    // map the xNoise/yNoise values (between -1 and 1) to a point within the orb's bounds
+    this.x = map(xNoise, -1, 1, this.bounds["x"].min, this.bounds["x"].max);
+    this.y = map(yNoise, -1, 1, this.bounds["y"].min, this.bounds["y"].max);
+    // map scaleNoise (between -1 and 1) to a scale value somewhere between half of the orb's original size, and 100% of it's original size
+    this.scale = map(scaleNoise, -1, 1, 0.5, 1);
+
+    // step through "time"
+    this.xOff += this.inc;
+    this.yOff += this.inc;
+  }
+
+  render() {
+    // update the PIXI.Graphics position and scale values
+    this.graphics.x = this.x;
+    this.graphics.y = this.y;
+    this.graphics.scale.set(this.scale);
+
+    // clear anything currently drawn to graphics
+    this.graphics.clear();
+
+    // tell graphics to fill any shapes drawn after this with the orb's fill color
+    this.graphics.beginFill(this.fill);
+    // draw a circle at { 0, 0 } with it's size set by this.radius
+    this.graphics.drawCircle(0, 0, this.radius);
+    // let graphics know we won't be filling in any more shapes
+    this.graphics.endFill();
+  }
+}
+
+// Create PixiJS app
+const app = new PIXI.Application({
+  // render to <canvas class="orb-canvas"></canvas>
+  view: document.querySelector(".orb-canvas"),
+  // auto adjust size to fit the current window
+  resizeTo: window,
+  // transparent background, we will be creating a gradient background later using CSS
+  transparent: true
+});
+
+app.stage.filters = [new KawaseBlurFilter(30, 10, true)];
+
+// Create colour palette
+const colorPalette = new ColorPalette();
+
+// Create orbs
+const orbs = [];
+
+for (let i = 0; i < 10; i++) {
+  const orb = new Orb(colorPalette.randomColor());
+
+  app.stage.addChild(orb.graphics);
+
+  orbs.push(orb);
+}
+
+// Animate!
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  app.ticker.add(() => {
+    orbs.forEach((orb) => {
+      orb.update();
+      orb.render();
+    });
+  });
+} else {
+  orbs.forEach((orb) => {
+    orb.update();
+    orb.render();
+  });
+}
+
+document
+  .querySelector(".overlay__btn--colors")
+  .addEventListener("click", () => {
+    colorPalette.setColors();
+    colorPalette.setCustomProperties();
+
+    orbs.forEach((orb) => {
+      orb.fill = colorPalette.randomColor();
+    });
+  });
+
+
+</script>
+
+</div>
+
+<div class="page" data-page="instructions">
+<div class="bg">
+  <!-- Canvas -->
+  <canvas class="orb-canvas"></canvas>
+  <!-- Overlay -->
+  <div class="overlay">
+    <!-- Overlay inner wrapper -->
+    <div class="overlay__inner">
+      <!-- Title -->
+      <h1 class="overlay__title">
+        Please read the given
+        <span class="text-gradient">instructions.</span>
+      </h1>
+      <!-- Description -->
+      <p class="overlay__description">
+        <strong>1. </strong>There are 3 sections to the test. Reading, Writing, Listening.
+        <br>
+        <strong>2. </strong>The reading section consist of 2 different paragraphs.
+        <br>
+        <strong>3. </strong>Each section needs to be completed within the given time for the particular section.
+        <br>
+        <strong>4. </strong>Test will enter fullscreen and only work in fullscreen.
+      </p>
+      <!-- Buttons -->
+      <div class="overlay__btns" id="loginbuttons">
+
+      <button id="previnstructionsbutton" class="overlay__btn overlay__btn--transparent">Back</button>
+
+        <button class="overlay__btn overlay__btn--colors" id="starttestbutton" onclick="requestFullScreen(document.documentElement)">
+          <span>Start Test</span>
+          <span class="overlay__btn-emoji">⌛</span>
+        </button> 
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import * as PIXI from "https://cdn.skypack.dev/pixi.js@5.x";
+import { KawaseBlurFilter } from "https://cdn.skypack.dev/@pixi/filter-kawase-blur@3.2.0";
+import SimplexNoise from "https://cdn.skypack.dev/simplex-noise@3.0.0";
+import hsl from "https://cdn.skypack.dev/hsl-to-hex";
+import debounce from "https://cdn.skypack.dev/debounce";
+
+// return a random number within a range
+function random(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+// map a number from 1 range to another
+function map(n, start1, end1, start2, end2) {
+  return ((n - start1) / (end1 - start1)) * (end2 - start2) + start2;
+}
+
+// Create a new simplex noise instance
+const simplex = new SimplexNoise();
+
+// ColorPalette class
+class ColorPalette {
+  constructor() {
+    this.setColors();
+    this.setCustomProperties();
+  }
+
+  setColors() {
+    // pick a random hue somewhere between 220 and 360
+    this.hue = ~~random(220, 360);
+    this.complimentaryHue1 = this.hue + 30;
+    this.complimentaryHue2 = this.hue + 60;
+    // define a fixed saturation and lightness
+    this.saturation = 95;
+    this.lightness = 50;
+
+    // define a base color
+    this.baseColor = hsl(this.hue, this.saturation, this.lightness);
+    // define a complimentary color, 30 degress away from the base
+    this.complimentaryColor1 = hsl(
+      this.complimentaryHue1,
+      this.saturation,
+      this.lightness
+    );
+    // define a second complimentary color, 60 degrees away from the base
+    this.complimentaryColor2 = hsl(
+      this.complimentaryHue2,
+      this.saturation,
+      this.lightness
+    );
+
+    // store the color choices in an array so that a random one can be picked later
+    this.colorChoices = [
+      this.baseColor,
+      this.complimentaryColor1,
+      this.complimentaryColor2
+    ];
+  }
+
+  randomColor() {
+    // pick a random color
+    return this.colorChoices[~~random(0, this.colorChoices.length)].replace(
+      "#",
+      "0x"
+    );
+  }
+
+  setCustomProperties() {
+    // set CSS custom properties so that the colors defined here can be used throughout the UI
+    document.documentElement.style.setProperty("--hue", this.hue);
+    document.documentElement.style.setProperty(
+      "--hue-complimentary1",
+      this.complimentaryHue1
+    );
+    document.documentElement.style.setProperty(
+      "--hue-complimentary2",
+      this.complimentaryHue2
+    );
+  }
+}
+
+// Orb class
+class Orb {
+  // Pixi takes hex colors as hexidecimal literals (0x rather than a string with '#')
+  constructor(fill = 0x000000) {
+    // bounds = the area an orb is "allowed" to move within
+    this.bounds = this.setBounds();
+    // initialise the orb's { x, y } values to a random point within it's bounds
+    this.x = random(this.bounds["x"].min, this.bounds["x"].max);
+    this.y = random(this.bounds["y"].min, this.bounds["y"].max);
+
+    // how large the orb is vs it's original radius (this will modulate over time)
+    this.scale = 1;
+
+    // what color is the orb?
+    this.fill = fill;
+
+    // the original radius of the orb, set relative to window height
+    this.radius = random(window.innerHeight / 6, window.innerHeight / 3);
+
+    // starting points in "time" for the noise/self similar random values
+    this.xOff = random(0, 1000);
+    this.yOff = random(0, 1000);
+    // how quickly the noise/self similar random values step through time
+    this.inc = 0.002;
+
+    // PIXI.Graphics is used to draw 2d primitives (in this case a circle) to the canvas
+    this.graphics = new PIXI.Graphics();
+    this.graphics.alpha = 0.825;
+
+    // 250ms after the last window resize event, recalculate orb positions.
+    window.addEventListener(
+      "resize",
+      debounce(() => {
+        this.bounds = this.setBounds();
+      }, 250)
+    );
+  }
+
+  setBounds() {
+    // how far from the { x, y } origin can each orb move
+    const maxDist =
+      window.innerWidth < 1000 ? window.innerWidth / 3 : window.innerWidth / 5;
+    // the { x, y } origin for each orb (the bottom right of the screen)
+    const originX = window.innerWidth / 1.25;
+    const originY =
+      window.innerWidth < 1000
+        ? window.innerHeight
+        : window.innerHeight / 1.375;
+
+    // allow each orb to move x distance away from it's x / y origin
+    return {
+      x: {
+        min: originX - maxDist,
+        max: originX + maxDist
+      },
+      y: {
+        min: originY - maxDist,
+        max: originY + maxDist
+      }
+    };
+  }
+
+  update() {
+    // self similar "psuedo-random" or noise values at a given point in "time"
+    const xNoise = simplex.noise2D(this.xOff, this.xOff);
+    const yNoise = simplex.noise2D(this.yOff, this.yOff);
+    const scaleNoise = simplex.noise2D(this.xOff, this.yOff);
+
+    // map the xNoise/yNoise values (between -1 and 1) to a point within the orb's bounds
+    this.x = map(xNoise, -1, 1, this.bounds["x"].min, this.bounds["x"].max);
+    this.y = map(yNoise, -1, 1, this.bounds["y"].min, this.bounds["y"].max);
+    // map scaleNoise (between -1 and 1) to a scale value somewhere between half of the orb's original size, and 100% of it's original size
+    this.scale = map(scaleNoise, -1, 1, 0.5, 1);
+
+    // step through "time"
+    this.xOff += this.inc;
+    this.yOff += this.inc;
+  }
+
+  render() {
+    // update the PIXI.Graphics position and scale values
+    this.graphics.x = this.x;
+    this.graphics.y = this.y;
+    this.graphics.scale.set(this.scale);
+
+    // clear anything currently drawn to graphics
+    this.graphics.clear();
+
+    // tell graphics to fill any shapes drawn after this with the orb's fill color
+    this.graphics.beginFill(this.fill);
+    // draw a circle at { 0, 0 } with it's size set by this.radius
+    this.graphics.drawCircle(0, 0, this.radius);
+    // let graphics know we won't be filling in any more shapes
+    this.graphics.endFill();
+  }
+}
+
+// Create PixiJS app
+const app = new PIXI.Application({
+  // render to <canvas class="orb-canvas"></canvas>
+  view: document.querySelector(".orb-canvas"),
+  // auto adjust size to fit the current window
+  resizeTo: window,
+  // transparent background, we will be creating a gradient background later using CSS
+  transparent: true
+});
+
+app.stage.filters = [new KawaseBlurFilter(30, 10, true)];
+
+// Create colour palette
+const colorPalette = new ColorPalette();
+
+// Create orbs
+const orbs = [];
+
+for (let i = 0; i < 10; i++) {
+  const orb = new Orb(colorPalette.randomColor());
+
+  app.stage.addChild(orb.graphics);
+
+  orbs.push(orb);
+}
+
+// Animate!
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  app.ticker.add(() => {
+    orbs.forEach((orb) => {
+      orb.update();
+      orb.render();
+    });
+  });
+} else {
+  orbs.forEach((orb) => {
+    orb.update();
+    orb.render();
+  });
+}
+
+document
+  .querySelector(".overlay__btn--colors")
+  .addEventListener("click", () => {
+    colorPalette.setColors();
+    colorPalette.setCustomProperties();
+
+    orbs.forEach((orb) => {
+      orb.fill = colorPalette.randomColor();
+    });
+  });
+
+
+</script>
+
+</div>
+
+<!-- partial -->
+
+
+<script type="text/javascript">
+const switchers = document.querySelectorAll('[data-switcher]');
+
+  for (let i = 0; i < switchers.length; i++) {
+   const page_id = switchers[i].dataset.tab;
+   switchers[i].addEventListener('click', function() {
+      document.querySelector('.tab.is-active').classList.remove('is-active');
+      switchers[i].parentNode.classList.add('is-active');
+     
+      switchPage(page_id);
+    });
+}
+</script>
+</div>
+
+</body></html>

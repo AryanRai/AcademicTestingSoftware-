@@ -1,0 +1,271 @@
+
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Layout--split-view</title>
+
+  <link
+      rel="stylesheet"
+      href=
+"https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity=
+"sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"/>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+
+<div class="content-wrapper" id="wrapper">
+  <div class="col-l" id="col-l">
+    <header>
+  <button onclick="Highlight">Highlight </button>
+  <div class="wrapper">
+    <label>Style:</label>
+    <select id="highlight-style">
+      <option>background</option>
+      <option>half</option>
+      <option>underline</option>
+    </select>
+  </div>
+  <div class="wrapper">
+    <input type="checkbox" id="mode" />
+    <label for="mode">Dark Mode</label>
+  </div>
+    <div class="wrapper">
+    <input id="fullscreenbtn" type="checkbox" onclick="requestFullScreen(document.documentElement)"/>
+    <label>FullScreen</label>
+  </div>
+</header>
+
+<main class="text blurredElement" id="txt">
+  <h1>Sample Academic Reading</h1>
+  <p class="item" id="maintxt">The general assumption is that older workers are paid more in spite of, rather than because of, their productivity. That might partly explain why, when employers are under pressure to cut costs, they persuade a 55-year old to take early retirement. Take away seniority-based pay scales, and older workers may become a much more attractive employment proposition. But most employers and many workers are uncomfortable with the idea of reducing someone’s pay in later life – although manual workers on piece-rates often earn less as they get older. So retaining the services of older workers may mean employing them in different ways.
+
+One innovation was devised by IBM Belgium. Faced with the need to cut staff costs, and having decided to concentrate cuts on 55 to 60-year olds, IBM set up a separate company called Skill Team, which re-employed any of the early retired who wanted to go on working up to the age of 60. An employee who joined Skill Team at the age of 55 on a five-year contract would work for 58% of his time, over the full period, for 88% of his last IBM salary. The company offered services to IBM, thus allowing it to retain access to some of the intellectual capital it would otherwise have lost.
+
+The best way to tempt the old to go on working may be to build on such ‘bridge’ jobs: part-time or temporary employment that creates a more gradual transition from full-time work to retirement. Studies have found that, in the United States, nearly half of all men and women who had been in full-time jobs in middle age moved into such ‘bridge’ jobs at the end of their working lives. In general, it is the best-paid and worst-paid who carry on working. There seem to be two very different types of bridge job-holder – those who continue working because they have to and those who continue working because they want to, even though they could afford to retire.
+
+If the job market grows more flexible, the old may find more jobs that suit them. Often, they will be self-employed. Sometimes, they may start their own businesses: a study by David Storey of Warwick University found that in Britain 70% of businesses started by people over 55 survived, compared with an overall national average of only 19%. But whatever pattern of employment they choose, in the coming years the skills of these ‘grey workers’ will have to be increasingly acknowledged and rewarded.</p>
+
+
+      
+ 
+</main>
+<!-- partial -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="dist/js/bootstrap-checkbox.min.js" defer></script>
+
+
+<script  src="./script.js"></script>
+  </div>
+  <div class="col-r" id="col-r">
+    <div class="card">
+        Questions
+    </div>
+
+
+
+
+<div class="container blurredElement" id="questions">
+  
+<!--Questions with radios-->
+<div class="row">
+  <form>
+  <h1>Questions with radios</h1>
+  <p>Aswer all questions and check your result!</p>
+  <div class="quiz-group">
+        <div class="quiz-question-strong">In paragraph one, the writer suggests that companies could consider</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" value="1" checked>
+        abolishing pay schemes that are based on age.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" value="2">
+        avoiding pay that is based on piece-rates.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" value="3">
+        increasing pay for older workers.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" value="4">
+        equipping older workers with new skills.
+      </label>
+    </div>
+  
+  <div class="quiz-group">
+    <div class="quiz-question-strong">Skill Team is an example of a company which</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios4" value="1" checked>
+        offers older workers increases in salary.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios5" value="2">
+        allows people to continue working for as long as they want.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios6" value="3">
+        allows the expertise of older workers to be put to use.
+      </label>
+    </div>
+      <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios6" value="3">
+        treats older and younger workers equally.
+      </label>
+    </div>
+    <div class="quiz-answer">
+      <a href="#" class="btn btn-success btn-md" role="button">Answer</a>
+    </div>
+  </div> 
+
+  <div class="quiz-group">
+    <div class="quiz-question-strong">According to the writer, ‘bridge’ jobs</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios4" value="1" checked>
+        tend to attract people in middle-salary ranges.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios5" value="2">
+        are better paid than some full-time jobs.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios6" value="3">
+        originated in the United States.
+      </label>
+    </div>
+      <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios6" value="3">
+        appeal to distinct groups of older workers.
+      </label>
+    </div>
+    <div class="quiz-answer">
+      <a href="#" class="btn btn-success btn-md" role="button">Answer</a>
+    </div>
+  </div> 
+
+
+  <div class="quiz-group">
+    <div class="quiz-question-strong">David Storey’s study found that</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios4" value="1" checked>
+        people demand more from their work as they get older.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios5" value="2">
+        older people are good at running their own businesses.
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios6" value="3">
+        an increasing number of old people are self-employed.
+      </label>
+    </div>
+      <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios1" id="optionsRadios6" value="3">
+        few young people have their own businesses.
+      </label>
+    </div>
+    <div class="quiz-answer">
+      <a href="#" class="btn btn-success btn-md" role="button">Answer</a>
+    </div>
+  </div> 
+
+</form>
+</div>
+<!--END Questions with radios-->
+
+
+
+        
+</div>
+<!-- partial -->
+
+
+  </div>
+  
+  <footer id="footer">
+    <div class="footer__wrapper">
+      <div> <div class="wrapper">Enable Full Screen to View Content</div>     
+      <div class="wrapper">
+    <input id="fullscreenbtnfooter" type="checkbox" onclick="requestFullScreen(document.documentElement)"/>
+    <label> FullScreen</label>
+  </div></div>
+    </div>
+
+  </footer>
+
+   
+</div>
+<!-- partial -->
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+  import {getDatabase, ref, get, set, child, update, remove} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAlxf-i_ERZ6VeCXWzckYsp9rMiE93f3IA",
+    authDomain: "globaleducareer-14cb7.firebaseapp.com",
+    databaseURL: "https://globaleducareer-14cb7-default-rtdb.firebaseio.com",
+    projectId: "globaleducareer-14cb7",
+    storageBucket: "globaleducareer-14cb7.appspot.com",
+    messagingSenderId: "385180918906",
+    appId: "1:385180918906:web:afffdb53d4ab28eef787c3",
+    measurementId: "G-MHSCESY6B0"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getDatabase();
+
+        function InsertData() {
+            set(ref(db, "People/"+ enterID.value),{
+                Name: enterName.value,
+                ID: enterID.value,
+                Age: enterAge.value
+            })
+            .then(()=>{
+                alert("Data added successfully");
+            })
+            .catch((error)=>{
+                alert(error);
+            });
+        }  
+
+</script>
+
+</body>
+</html>

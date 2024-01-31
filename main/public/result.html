@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <header>
+        <div class="wrapper">
+        <div class="card">checking for:
+        </div>  
+        <strong id="suidhead"></strong>
+        </div>
+
+        <div class="wrapper" style='visibility: hidden;'>
+          <label>Style:</label>
+          <select id="highlight-style">
+            <option>background</option>
+            <option>half</option>
+            <option>underline</option>
+          </select>
+        </div>
+
+        <div class="wrapper">
+        <input id="fullscreenbtn" type="checkbox" onclick="requestFullScreen(document.documentElement)">
+        <label>FullScreen</label>
+        </div>        
+
+        <div class="wrapper">
+        <input type="checkbox" id="mode" onclick="document.body.classList.toggle('dark-mode');">
+        <label for="mode">Dark Mode</label>
+        </div>
+
+
+      </header>
+  <link rel="stylesheet" type="text/css" href="resultstyle.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+    <script src="https://www.googletagmanager.com/gtag/js?l=dataLayer&amp;id=G-MHSCESY6B0" async=""></script>
+  </head>
+    <body id="body">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="dist/js/bootstrap-checkbox.min.js" defer=""></script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-analytics.js";
+  import {getDatabase, ref, get, set, child, update, remove} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut} from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-auth.js'
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAlxf-i_ERZ6VeCXWzckYsp9rMiE93f3IA",
+    authDomain: "globaleducareer-14cb7.firebaseapp.com",
+    databaseURL: "https://globaleducareer-14cb7-default-rtdb.firebaseio.com",
+    projectId: "globaleducareer-14cb7",
+    storageBucket: "globaleducareer-14cb7.appspot.com",
+    messagingSenderId: "385180918906",
+    appId: "1:385180918906:web:afffdb53d4ab28eef787c3",
+    measurementId: "G-MHSCESY6B0"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getDatabase();
+  const auth = getAuth();
+  const provider = new GoogleAuthProvider();
+  var uid;
+  const dbref = ref(db);
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    uid = user.uid;
+    console.log(uid);
+    console.log("user is signed in");
+    if (user !== null) {
+      user.providerData.forEach((profile) => {
+    console.log("Sign-in provider: " + profile.providerId);
+    console.log("  Provider-specific UID: " + profile.uid);
+    console.log("  Name: " + profile.displayName);
+    console.log("  Email: " + profile.email);
+    console.log("  Photo URL: " + profile.photoURL);
+
+    document.getElementById("namelabel").innerHTML = profile.displayName;
+    document.getElementById("uidlabel").innerHTML = uid;
+    document.getElementById("emaillabel").innerHTML = user.email;
+    });
+  }
+    document.getElementById('signinbutton').innerHTML = '<span>Continue ➜</span>';
+    // ...
+  } else {
+    console.log("user is signed out");
+    //signInWithRedirect(auth, provider);
+    // User is signed out
+    // ...
+  }
+});
+
+getRedirectResult(auth)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access Google APIs.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+
+    // The signed-in user info.
+    const user = result.user;
+    console.log(user.name, user.email, user.uid);
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+
+
+
+
+var queryString = window.location.search;
+console.log(queryString);
+
+var urlParams = new URLSearchParams(queryString);
+var studentuid = "";
+
+if (urlParams.has('suid')) {
+
+  studentuid = urlParams.get('suid')
+  console.log(studentuid);
+  document.getElementById("suidhead").innerHTML = studentuid;
+  get(child(dbref, "users" + "/" + studentuid))
+            .then((snapshot)=>{
+                if(snapshot.exists()){
+                  console.log("exists");
+                  document.getElementById("body").innerHTML += snapshot.val().resultpage;
+
+                } else {
+                    alert("No data found");
+                }
+            })
+            .catch((error)=>{
+                alert(error)
+            })
+}
+
+
+</script>
+  <title></title>
+</head>
+<body>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
