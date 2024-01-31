@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Bootstrap Quiz</title>
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js" defer></script>
+<script src="dist/js/bootstrap-checkbox.min.js" defer></script><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'><link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="container">
+
+<!--Yes/No quiz-->
+  <div class="row">
+    <h1>Yes/No Quiz</h1>
+    <p>Aswer all questions and check your result!</p>
+  </div>
+  <div class="row">
+    <div class="quiz-yn-group col-md-6">
+      <div class="quiz-question"><strong>1.</strong> Integer tincidunt nisi at ante egestas luctus. Vestibulum consectetur sollicitudin lacinia. Nam id neque et erat aliquam sollicitudin vel sit amet risus.
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" value="">Da
+        </label>
+        <label>
+          <input type="checkbox" value="">Ne</label>
+      </div>
+    </div>
+    <div class="quiz-yn-group col-md-6">
+      <div class="quiz-question"><strong>2.</strong> Integer tincidunt nisi at ante egestas luctus. Vestibulum consectetur sollicitudin lacinia. Nam id neque et erat aliquam sollicitudin vel sit amet risus. Mauris condimentum ex ut ante blandit pellentesque?
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" value="">Da
+        </label>
+        <label>
+          <input type="checkbox" value="">Ne</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="quiz-yn-group col-sm-6">
+      <div class="quiz-question"><strong>3.</strong> Nam id neque et erat aliquam sollicitudin vel sit amet risus.</div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" value="">Da
+        </label>
+        <label>
+          <input type="checkbox" value="">Ne</label>
+      </div>
+    </div>
+      <div class="quiz-yn-group col-sm-6">
+      <div class="quiz-question"><strong>4.</strong> Vestibulum consectetur sollicitudin lacinia.
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" value="">Da
+        </label>
+        <label>
+          <input type="checkbox" value="">Ne</label>
+      </div>
+    </div>
+  </div>  
+
+  <div class="quiz-answer text-center">
+    <a href="#" class="btn btn-lg btn-success" role="button">See your result</a>
+  </div>
+<!--END Yes/No quiz -->
+  
+<!--Questions with radios-->
+<div class="row">
+  <h1>Questions with radios</h1>
+  <div class="quiz-group">
+        <div class="quiz-question-strong">Question number 1</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+        Option one is this and that&mdash;be sure to include why it's great
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+        Option two can be something else and selecting it will deselect option one
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+        Option three can be something else
+      </label>
+    </div>
+  
+    <div class="quiz-answer">
+      <a href="#" class="btn btn-success btn-md" role="button">Answer</a>
+    </div>
+  </div>
+  
+  <div class="quiz-group">
+    <div class="quiz-question-strong">Question number 2</div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" id="optionsRadios4" value="option4" checked>
+        Option one is this and that&mdash;be sure to include why it's great
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" id="optionsRadios5" value="option5">
+        Option two can be something else and selecting it will deselect option one
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="optionsRadios" id="optionsRadios6" value="option6">
+        Option three can be something else
+      </label>
+    </div>
+    <div class="quiz-answer">
+      <a href="#" class="btn btn-success btn-md" role="button">Answer</a>
+    </div>
+  </div> 
+
+</div>
+<!--END Questions with radios-->
+
+<!--Open Questions-->  
+<div class="row">
+  <h1 class="quiz-title">Open opinion questions</h1>
+  <p class="quiz-description">Answer the following questions:<p>
+  <div class="quiz-group">
+    <div class="quiz-question"><strong>1. Question:</strong> Mauris condimentum ex ut ante blandit pellentesque. Suspendisse porta felis et odio aliquet ornare. Mauris non ornare nulla, non semper nulla. Mauris auctor accumsan nisi eget efficitur. Ut sit amet rutrum eros?
+    </div>
+    <label for="comment">Answer:</label>
+    <textarea class="form-control" rows="5" id="comment"></textarea>
+    <div class="quiz-answer">
+      <a href="#" class="btn btn-success btn-md" role="button">Answer</a>
+    </div>
+  </div>
+  
+  <div class="quiz-group">
+     <div class="quiz-question"><strong>2. Question:</strong> Integer tincidunt nisi at ante egestas luctus. Vestibulum consectetur sollicitudin lacinia. Nam id neque et erat aliquam sollicitudin vel sit amet risus. Mauris condimentum ex ut ante blandit pellentesque. Suspendisse porta felis et odio aliquet ornare. Mauris non ornare nulla, non semper nulla. Mauris auctor accumsan nisi eget efficitur. Ut sit amet rutrum eros? 
+     </div>
+    <label for="comment">Answer:</label>
+    <textarea class="form-control" rows="5" id="comment"></textarea>
+    <div class="quiz-answer">
+      <a href="#" class="btn btn-success btn-md" role="button">Answer</a>
+    </div>
+  </div>
+
+</div> <!--END Open Questions-->
+
+
+        
+</div>
+<!-- partial -->
+  
+</body>
+</html>

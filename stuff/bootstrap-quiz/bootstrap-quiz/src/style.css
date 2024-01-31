@@ -1,0 +1,34 @@
+body {
+  background-color: #efefef;
+}
+.quiz-title{
+  
+}
+.quiz-description {
+  color: grey;
+}
+.quiz-question {
+  font-weight: 300;
+  padding: 15px 0 10px 0;
+}
+.quiz-question-strong {
+  font-weight: 600;
+  padding: 15px 0 10px 0;
+}
+.quiz-answer{
+  margin:12px 0 20px 0;
+}
+.quiz-group {
+  margin: 8px 0;
+}
+.quiz-footer {
+  margin: 15px 0 0 0;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  padding: 15px;
+}
+.quiz-yn-group {
+  background: #fff;
+  height: 100%;
+  border: 1px solid #ededed;
+}

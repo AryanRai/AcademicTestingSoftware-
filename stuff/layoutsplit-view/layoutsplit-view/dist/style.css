@@ -1,0 +1,261 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap");
+:root {
+  --bg-color-hsl: 59, 3%, 94%;
+  --bg-color: hsl(var(--bg-color-hsl));
+  --bg-color-translucent: hsla(var(--bg-color-hsl), 0.95);
+  --bg-color-footer: hsla(var(--bg-color-hsl), 0.95);
+  --bg-color-highlight: #ffff59;
+  --bg-color-l: aquamarine;
+  --color-text: hsl(192, 14%, 20%);
+  --color-text-highlight: hsl(192, 14%, 0%);
+  --page-width: 80ch;
+  --paragraph-font-size: min(max(1.2rem, 4vw), 1.4rem);
+  --header-font-size: min(max(2rem, 8vw), 4rem);
+  --space: 2rem;
+  --padding: 8vmin;
+  --duration: 1s;
+  --ease: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.dark-mode {
+  --bg-color-hsl: 0, 0%, 7%;
+  --bg-color: hsl(var(--bg-color-hsl));
+  --bg-color-translucent: hsla(var(--bg-color-hsl), 0.95);
+  --bg-color-highlight: hsl(52.62deg 13.17% 22.96%);
+  --bg-color-l: #705581;
+  --color-text: hsl(0, 0%, 80%);
+  --color-text-highlight: hsl(0, 0%, 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lora", sans-serif;
+  font-weight: 400;
+  color: var(--color-text);
+  background-color: var(--bg-color);
+  transition: background calc(var(--duration) / 4) var(--ease);
+  user-select: none;
+
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: calc(var(--space) / 2) var(--padding);
+  width: 100%;
+  background-color: var(--bg-color-translucent);
+  transition: background calc(var(--duration) / 4) var(--ease);
+
+}
+header .wrapper {
+  display: flex;
+  align-items: center;
+}
+header .wrapper > * + * {
+  margin-left: 4px;
+}
+
+select {
+  font-family: inherit;
+  font-size: 16px;
+}
+
+label {
+  font-size: 0.8rem;
+}
+
+main {
+  margin: 12rem auto;
+  padding: 0 var(--padding);
+  max-width: var(--page-width);
+}
+
+h1 {
+  font-size: var(--header-font-size);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 4rem;
+}
+
+p {
+  margin: 2rem 0;
+  font-size: var(--paragraph-font-size);
+  line-height: 1.7;
+}
+
+.text-highlight {
+  all: unset;
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: color calc(var(--duration) / 4) var(--ease), background-color calc(var(--duration) / 4) var(--ease), background-size var(--duration) var(--ease);
+}
+.text-highlight.active {
+  color: var(--color-text-highlight);
+  background-size: 100% 100%;
+}
+[data-highlight=background] .text-highlight {
+  background-image: linear-gradient(var(--bg-color-highlight), var(--bg-color-highlight));
+}
+[data-highlight=half] .text-highlight {
+  --line-size: 0.5em;
+  background-image: linear-gradient(transparent calc(100% - var(--line-size)), var(--bg-color-highlight) var(--line-size));
+}
+[data-highlight=underline] .text-highlight {
+  --line-size: 0.15em;
+  background-image: linear-gradient(transparent calc(100% - var(--line-size)), var(--color-text) var(--line-size));
+}
+.text-highlight::before, .text-highlight::after {
+  position: absolute;
+  -webkit-clip-path: inset(100%);
+          clip-path: inset(100%);
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.text-highlight::before {
+  content: " [highlight start] ";
+}
+.text-highlight::after {
+  content: " [highlight end] ";
+}
+
+.speech-bubble {
+  position: relative;
+  background: var(--bg-color-highlight);
+  border-radius: .4em;
+  color: var(--color-text);
+}
+
+.speech-bubble:after {
+  
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 12px solid transparent;
+  border-bottom-color: var(--bg-color-highlight);
+  border-top: 0;
+  margin-left: -12px;
+  margin-top: -12px;
+}
+
+.share-inside {
+  
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  background-size: 24px 19px;
+}
+
+.share-inside a {
+  display: inline-block;
+  font-size: 14px;
+  padding: 10px;
+  padding-left: 10px;
+  text-decoration: none;
+  font-family: "Lora", sans-serif;
+  font-weight: 900;
+  color: var(--color-text);
+}
+
+.fa-2x {
+    font-size: 1em;
+    padding-left: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+
+
+.content-wrapper {
+  position: relative;
+  top: 56px;
+  right: 0px;
+  display: flex;
+  max-width: 1201px;
+  padding: 0 24px;
+  width: 100%;
+  margin: 0 auto;
+
+}
+.content-wrapper .col-l {
+  position: relative;
+  min-height: calc(100vh - 56px);
+  width: 69%;
+  padding-right: 32px;
+  top: -125px;
+}
+.content-wrapper .col-r {
+  position: fixed;
+  top: 88px;
+  left: 50%;
+  right: 0;
+  margin-left: 176px;
+  max-width: 285px;
+  padding: 0 0 0 32px;
+}
+@media screen and (max-width: 977px) {
+  .content-wrapper .col-r {
+    left: 68%;
+    right: 24px;
+    margin-left: 0;
+    max-width: auto;
+  }
+}
+.content-wrapper .card {
+  background: var(--bg-color-l);
+  padding: 20px;
+}
+.content-wrapper footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.content-wrapper footer .footer__wrapper {
+  max-width: 970px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.content-wrapper footer .footer__wrapper div {
+
+  padding: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--bg-color-translucent);
+  transition: background calc(var(--duration) / 4) var(--ease);
+  
+}
+
+#maintxt{
+  user-select: text;
+  white-space: pre-wrap;
+}
+
+::-moz-selection { /* Code for Firefox */
+  
+  background: var(--bg-color-highlight);
+}
+
+::selection {
+  
+  background: var(--bg-color-highlight);
+}
