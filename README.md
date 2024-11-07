@@ -1,8 +1,142 @@
-# AcademicTestingSoftware-
-An academic testing tool for IELTS Questions. 
-Uses Google Firebase Backend for Dynamic Question and Answer checking.
-Uses Google Account authentication using firebase.
+# IELTS Academic Testing Tool Documentation
 
+## Overview
+
+The **IELTS Academic Testing Tool** is an online platform designed to simulate the IELTS (International English Language Testing System) academic exam. It features reading and writing sections with automated timing, secure authentication, and result tracking.
+
+## Key Features
+
+### 1. Authentication
+- Google Account integration for secure user authentication
+- Firebase Authentication backend
+- User session management and profile display
+
+### 2. Test Sections
+
+#### Reading Section
+- Multiple reading passages with associated questions
+- Multiple choice and True/False/Not Given question types
+- Timed sections with auto-submission
+- Text highlighting functionality for reading comprehension
+- Progress tracking between passages
+
+#### Writing Section
+- Two writing tasks
+- Text area input for responses
+- Timed writing section
+- Auto-save functionality
+
+### 3. Security Features
+- Fullscreen mode enforcement during the test
+- Prevention of browser search/find functionality
+- Blur effect on content when not in fullscreen
+- Anti-copy/paste measures
+
+### 4. User Interface
+- Dark/Light mode toggle
+- Progress indicators
+- Timer display
+- Responsive design
+- Interactive navigation between sections
+
+## Technical Implementation
+
+### Frontend Technologies
+- HTML5
+- CSS3
+- JavaScript
+- jQuery
+- Bootstrap
+- PIXI.js (for animations)
+
+### Backend Services
+- Firebase Authentication
+- Firebase Realtime Database
+- Firebase Hosting
+
+### Key Components
+
+#### Authentication Flow
+
+```javascript
+// Initialize Firebase Authentication
+const auth = getAuth();
+const provider = new GoogleAuthProvider();
+
+// Handle auth state changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in
+    uid = user.uid;
+    // Update UI with user info
+  } else {
+    // User is signed out
+    // Redirect to sign in
+  }
+});
+```
+
+#### Timer Implementation
+
+```javascript
+function startTimer() {
+  var presentTime = document.getElementById('timer').innerHTML;
+  var timeArray = presentTime.split(/[:]+/);
+  m = timeArray[0];
+  s = checkSecond((timeArray[1] - 1));
+
+  if (s == 0 && m == 0) {
+    // Handle section completion
+  }
+
+  // Update timer display
+  document.getElementById('timer').innerHTML = m + ":" + s;
+  setTimeout(startTimer, 1000);
+}
+```
+
+#### Security Measures
+
+```javascript
+// Prevent find/search functionality
+window.addEventListener("keydown", function(e) {
+  if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70)) {
+    e.preventDefault();
+  }
+});
+
+// Handle fullscreen changes
+window.addEventListener('resize', (evt) => {
+  if (window.innerHeight == screen.height) {
+    // Enable content viewing
+  } else {
+    // Blur content
+  }
+});
+```
+
+## Database Structure
+
+```
+users/
+└── uid/
+    ├── answered/
+    │   ├── reading: {...}
+    │   └── writing: {...}
+    └── resultpage: "HTML"
+
+tests/
+└── answers/
+    ├── reading: {...}
+    └── writing: {...}
+```
+
+## Usage Guidelines
+- Users must sign in with a Google account
+- Read instructions before starting the test
+- Enter fullscreen mode when prompted
+- Complete each section within the time limit
+- Review results after completion
 Login Screen
 ![image](https://github.com/AryanRai/AcademicTestingSoftware-/assets/31175254/4ffa10ea-123c-46fb-8991-49692db78442)
 
