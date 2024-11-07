@@ -153,7 +153,7 @@ Login Screen
 ![Screenshot 2024-11-07 231110](https://github.com/user-attachments/assets/24540c83-0014-4ba9-81d2-ec987b61e7a0)
 ![Screenshot 2024-11-07 231046](https://github.com/user-attachments/assets/91d43e4b-c385-4b4c-80d2-207fcd46f525)
 
-#Database Structure
+# Database Structure
 
 ![Screenshot 2024-11-07 231229](https://github.com/user-attachments/assets/4af7c7e1-b83b-4a23-b785-d5a54919cecb)
 ![Screenshot 2024-11-07 231214](https://github.com/user-attachments/assets/ff740a2c-3290-44e8-8521-fce46ef663c7)
