@@ -26,6 +26,11 @@ The **IELTS Academic Testing Tool** is an online platform designed to simulate t
 - Timed writing section
 - Auto-save functionality
 
+### 2. Sharing
+- Final URL can be shared
+- Data stored on server
+- Anyone with link can test answers
+
 ### 3. Security Features
 - Fullscreen mode enforcement during the test
 - Prevention of browser search/find functionality
