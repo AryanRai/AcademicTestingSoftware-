@@ -94,7 +94,7 @@ getRedirectResult(auth)
     const errorCode = error.code;
     const errorMessage = error.message;
     // The email of the user's account used.
-    const email = error.customData.email;
+    //const email = error.customData.email;
     // The AuthCredential type that was used.
     const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
@@ -591,8 +591,6 @@ function requestFullScreen(element) {
         }
     }
 
-    }
-
     if (fullscreenval == true) {
     
     var requestMethod = document.exitFullscreen;
@@ -658,7 +656,7 @@ window.addEventListener("keydown",function (e) {
 })
 
 
-
+}
 
 
 function switchPage(page_id) {
@@ -688,7 +686,6 @@ function switchPage(page_id) {
       console.log("change id"); 
     }
 } 
-
 
 
 </script>
@@ -1259,7 +1256,6 @@ If the job market grows more flexible, the old may find more jobs that suit them
 import { KawaseBlurFilter } from "https://cdn.skypack.dev/@pixi/filter-kawase-blur@3.2.0";
 import SimplexNoise from "https://cdn.skypack.dev/simplex-noise@3.0.0";
 import hsl from "https://cdn.skypack.dev/hsl-to-hex";
-import debounce from "https://cdn.skypack.dev/debounce";
 
 // return a random number within a range
 function random(min, max) {
@@ -1272,7 +1268,7 @@ function map(n, start1, end1, start2, end2) {
 }
 
 // Create a new simplex noise instance
-const simplex = new SimplexNoise();
+const simplex3 = new SimplexNoise();
 
 // ColorPalette class
 class ColorPalette {
@@ -1364,13 +1360,12 @@ class Orb {
     this.graphics = new PIXI.Graphics();
     this.graphics.alpha = 0.825;
 
-    // 250ms after the last window resize event, recalculate orb positions.
-    window.addEventListener(
-      "resize",
-      debounce(() => {
+    // FIXED: Properly structure the event listener
+    window.addEventListener('resize', () => {
+      setTimeout(() => {
         this.bounds = this.setBounds();
-      }, 250)
-    );
+      }, 250);
+    });
   }
 
   setBounds() {
@@ -1399,9 +1394,9 @@ class Orb {
 
   update() {
     // self similar "psuedo-random" or noise values at a given point in "time"
-    const xNoise = simplex.noise2D(this.xOff, this.xOff);
-    const yNoise = simplex.noise2D(this.yOff, this.yOff);
-    const scaleNoise = simplex.noise2D(this.xOff, this.yOff);
+    const xNoise = simplex3.noise2D(this.xOff, this.xOff);
+    const yNoise = simplex3.noise2D(this.yOff, this.yOff);
+    const scaleNoise = simplex3.noise2D(this.xOff, this.yOff);
 
     // map the xNoise/yNoise values (between -1 and 1) to a point within the orb's bounds
     this.x = map(xNoise, -1, 1, this.bounds["x"].min, this.bounds["x"].max);
@@ -1433,7 +1428,7 @@ class Orb {
 }
 
 // Create PixiJS app
-const app = new PIXI.Application({
+const pixiApp3 = new PIXI.Application({
   // render to <canvas class="orb-canvas"></canvas>
   view: document.querySelector(".orb-canvas"),
   // auto adjust size to fit the current window
@@ -1442,32 +1437,32 @@ const app = new PIXI.Application({
   transparent: true
 });
 
-app.stage.filters = [new KawaseBlurFilter(30, 10, true)];
+pixiApp3.stage.filters = [new KawaseBlurFilter(30, 10, true)];
 
 // Create colour palette
-const colorPalette = new ColorPalette();
+const colorPalette3 = new ColorPalette();
 
 // Create orbs
-const orbs = [];
+const orbs3 = [];
 
 for (let i = 0; i < 10; i++) {
-  const orb = new Orb(colorPalette.randomColor());
+  const orb = new Orb(colorPalette3.randomColor());
 
-  app.stage.addChild(orb.graphics);
+  pixiApp3.stage.addChild(orb.graphics);
 
-  orbs.push(orb);
+  orbs3.push(orb);
 }
 
 // Animate!
 if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  app.ticker.add(() => {
-    orbs.forEach((orb) => {
+  pixiApp3.ticker.add(() => {
+    orbs3.forEach((orb) => {
       orb.update();
       orb.render();
     });
   });
 } else {
-  orbs.forEach((orb) => {
+  orbs3.forEach((orb) => {
     orb.update();
     orb.render();
   });
@@ -1476,11 +1471,11 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 document
   .querySelector(".overlay__btn--colors")
   .addEventListener("click", () => {
-    colorPalette.setColors();
-    colorPalette.setCustomProperties();
+    colorPalette3.setColors();
+    colorPalette3.setCustomProperties();
 
-    orbs.forEach((orb) => {
-      orb.fill = colorPalette.randomColor();
+    orbs3.forEach((orb) => {
+      orb.fill = colorPalette3.randomColor();
     });
   });
 
@@ -1532,7 +1527,6 @@ document
 import { KawaseBlurFilter } from "https://cdn.skypack.dev/@pixi/filter-kawase-blur@3.2.0";
 import SimplexNoise from "https://cdn.skypack.dev/simplex-noise@3.0.0";
 import hsl from "https://cdn.skypack.dev/hsl-to-hex";
-import debounce from "https://cdn.skypack.dev/debounce";
 
 // return a random number within a range
 function random(min, max) {
@@ -1545,7 +1539,7 @@ function map(n, start1, end1, start2, end2) {
 }
 
 // Create a new simplex noise instance
-const simplex = new SimplexNoise();
+const simplex3 = new SimplexNoise();
 
 // ColorPalette class
 class ColorPalette {
@@ -1637,13 +1631,12 @@ class Orb {
     this.graphics = new PIXI.Graphics();
     this.graphics.alpha = 0.825;
 
-    // 250ms after the last window resize event, recalculate orb positions.
-    window.addEventListener(
-      "resize",
-      debounce(() => {
+    // FIXED: Properly structure the event listener
+    window.addEventListener('resize', () => {
+      setTimeout(() => {
         this.bounds = this.setBounds();
-      }, 250)
-    );
+      }, 250);
+    });
   }
 
   setBounds() {
@@ -1672,9 +1665,9 @@ class Orb {
 
   update() {
     // self similar "psuedo-random" or noise values at a given point in "time"
-    const xNoise = simplex.noise2D(this.xOff, this.xOff);
-    const yNoise = simplex.noise2D(this.yOff, this.yOff);
-    const scaleNoise = simplex.noise2D(this.xOff, this.yOff);
+    const xNoise = simplex3.noise2D(this.xOff, this.xOff);
+    const yNoise = simplex3.noise2D(this.yOff, this.yOff);
+    const scaleNoise = simplex3.noise2D(this.xOff, this.yOff);
 
     // map the xNoise/yNoise values (between -1 and 1) to a point within the orb's bounds
     this.x = map(xNoise, -1, 1, this.bounds["x"].min, this.bounds["x"].max);
@@ -1706,7 +1699,7 @@ class Orb {
 }
 
 // Create PixiJS app
-const app = new PIXI.Application({
+const pixiApp3 = new PIXI.Application({
   // render to <canvas class="orb-canvas"></canvas>
   view: document.querySelector(".orb-canvas"),
   // auto adjust size to fit the current window
@@ -1715,32 +1708,32 @@ const app = new PIXI.Application({
   transparent: true
 });
 
-app.stage.filters = [new KawaseBlurFilter(30, 10, true)];
+pixiApp3.stage.filters = [new KawaseBlurFilter(30, 10, true)];
 
 // Create colour palette
-const colorPalette = new ColorPalette();
+const colorPalette3 = new ColorPalette();
 
 // Create orbs
-const orbs = [];
+const orbs3 = [];
 
 for (let i = 0; i < 10; i++) {
-  const orb = new Orb(colorPalette.randomColor());
+  const orb = new Orb(colorPalette3.randomColor());
 
-  app.stage.addChild(orb.graphics);
+  pixiApp3.stage.addChild(orb.graphics);
 
-  orbs.push(orb);
+  orbs3.push(orb);
 }
 
 // Animate!
 if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  app.ticker.add(() => {
-    orbs.forEach((orb) => {
+  pixiApp3.ticker.add(() => {
+    orbs3.forEach((orb) => {
       orb.update();
       orb.render();
     });
   });
 } else {
-  orbs.forEach((orb) => {
+  orbs3.forEach((orb) => {
     orb.update();
     orb.render();
   });
@@ -1749,11 +1742,11 @@ if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 document
   .querySelector(".overlay__btn--colors")
   .addEventListener("click", () => {
-    colorPalette.setColors();
-    colorPalette.setCustomProperties();
+    colorPalette3.setColors();
+    colorPalette3.setCustomProperties();
 
-    orbs.forEach((orb) => {
-      orb.fill = colorPalette.randomColor();
+    orbs3.forEach((orb) => {
+      orb.fill = colorPalette3.randomColor();
     });
   });
 

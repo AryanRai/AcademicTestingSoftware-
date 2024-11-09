@@ -1,5 +1,3 @@
-
-
 var m = 1;
 var s = 1;
 var fullscreenval = false;

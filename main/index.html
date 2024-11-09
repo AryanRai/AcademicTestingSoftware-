@@ -502,7 +502,6 @@ If the job market grows more flexible, the old may find more jobs that suit them
 import { KawaseBlurFilter } from "https://cdn.skypack.dev/@pixi/filter-kawase-blur@3.2.0";
 import SimplexNoise from "https://cdn.skypack.dev/simplex-noise@3.0.0";
 import hsl from "https://cdn.skypack.dev/hsl-to-hex";
-import debounce from "https://cdn.skypack.dev/debounce";
 
 // return a random number within a range
 function random(min, max) {
@@ -608,12 +607,15 @@ class Orb {
     this.graphics.alpha = 0.825;
 
     // 250ms after the last window resize event, recalculate orb positions.
-    window.addEventListener(
-      "resize",
-      debounce(() => {
+    window.addEventListener("resize", () => {
+      if (this.resizeTimeout) {
+        clearTimeout(this.resizeTimeout);
+      }
+      
+      this.resizeTimeout = setTimeout(() => {
         this.bounds = this.setBounds();
-      }, 250)
-    );
+      }, 250);
+    });
   }
 
   setBounds() {
